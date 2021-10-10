@@ -4,19 +4,14 @@ import axiosWithAuth from '../utils/axiosWithAuth'
 
 const articleService = ()=> {
 
-    const [articles, setArticles] = useState([]);
+    return axiosWithAuth().get('/articles')
 
-    useEffect(() => {
-        axiosWithAuth().get('/articles')
-        .then(res=>{
-            setArticles(res.data)
-        })
-        .catch(err =>{ setArticles([])})
-    },[])
-    
-    return (
-        articles
-    )
+            .then(res => {
+                            return (res.data)}
+            )
+            .catch(err =>{
+                        return ([])}
+            )
 }
 
 export default articleService;

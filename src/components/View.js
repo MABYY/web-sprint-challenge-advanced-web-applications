@@ -14,16 +14,19 @@ const View = (props) => {
 
 
     useEffect(() => {
-        axiosWithAuth().get('/articles')
-        .then(res=>{
-            setArticles(res.data)
-        })
-        .catch(err =>{ setArticles([])})
-    },[])
+        articleService().then(res=>  setArticles(res))
+    //     axiosWithAuth().get('/articles')
+    //     .then(res=>{
+    //         setArticles(res.data)
+    //     })
+    //     .catch(err =>{ console.log('err',err)})
+    },[]
+    
+    )
 
     const handleDelete = (id) => {
         console.log('delete id',id)
-
+        // setArticles(articles.filter(articles => articles.id !== id ))
         axiosWithAuth().delete(`/articles/${id}`)
         .then(res=>{
             console.log('response delete',res.data)
@@ -33,13 +36,16 @@ const View = (props) => {
 
     const handleEdit = (article) => {
         console.log('edit article',article)
+s
         // setArticles(articles.filter(articles => articles.id !== editId))
+        // setArticles([...articles, article])
+
         axiosWithAuth().put(`http://localhost:5000/api/articles/${article.id}`, article)
         .then(res=>{
             console.log('response',res.data)
             setArticles(res.data)
         })
-        setEditing(false);
+        setEditing(false)
     }
 
     const handleEditSelect = (id)=> {
