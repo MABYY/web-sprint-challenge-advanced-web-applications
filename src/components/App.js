@@ -23,8 +23,7 @@ const App = () => {
           <Route exact path ='/login' render = {(props)=>(<Login {...props} settoken = {setTokenid}/>)} />
           <PrivateRoute exact path ='/view' component={View}/>
           <PrivateRoute exact path ='/logout' component={Logout}/>
-          {/* <Route exact path ='/logout'  render = {(props)=>(<Logout {...props} settoken = {setTokenid}/>)} /> */}
-          <Route exact path="/"></Route>    
+          <Route exact path="/"  render = {(props)=>(<Login {...props} settoken = {setTokenid}/>)} />
         </Switch>
       
       </RouteContainer>

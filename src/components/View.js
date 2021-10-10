@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect  } from 'react';
 import styled from 'styled-components';
 
 import Article from './Article';
@@ -7,16 +7,18 @@ import axiosWithAuth from '../utils/axiosWithAuth'
 
 
 const View = (props) => {
-    const [article, setArticle] = useState({
-            id:"",
-            headline: "",
-            createdOn: "",
-            author:"",
-            image: "",
-            summary: "",
-            body: ""   ,
-        }
-    )
+
+    // const initialArticle = {
+    //     author: "",
+    //     body: "",
+    //     createdOn:"",
+    //     headline: "",
+    //     id:"",
+    //     image:"",
+    //     summary: "",
+       
+    // }; 
+    // const [article, setArticle] = useState(initialArticle)
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
@@ -25,29 +27,37 @@ const View = (props) => {
     useEffect(() => {
         axiosWithAuth().get('/articles')
         .then(res=>{
-            console.log(res.data)
             setArticles(res.data)
         })
         .catch(err =>{ console.log('err',err)})
     },[])
 
     const handleDelete = (id) => {
-        setArticles(articles.filter(articles => articles.id !== id ))
+        console.log('delete id',id)
+        // setArticles(articles.filter(articles => articles.id !== id ))
+
+        axiosWithAuth().delete(`/articles/${id}`)
+        .then(res=>{
+            console.log('response delete',res.data)
+                setArticles(res.data)
+        })
     }
 
     const handleEdit = (article) => {
-        console.log('editId',editId)
+        console.log('edit article',article)
+        // setArticle(article)
+        // console.log('handle edit editId',editId)
+        // console.log('handle edit article',article)
 
         setArticles(articles.filter(articles => articles.id !== editId))
-        setArticles([...articles, article])
+        // setArticles([...articles, article])
 
-        axiosWithAuth().put('/view', article)
-		.then(res => {
-			// props.setArticles(res.data);
-		})
-		push('/view');
-
-        
+        axiosWithAuth().put(`http://localhost:5000/api/articles/${article.id}`, article)
+        .then(res=>{
+            console.log('response',res.data)
+            setArticles(res.data)
+        })
+        setEditing(false);
     }
 
     const handleEditSelect = (id)=> {

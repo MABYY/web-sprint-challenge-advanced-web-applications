@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useHistory } from 'react';
 import styled from 'styled-components';
 
-const initialArticle = {
-    id:"",
-    headline: "",
-    author: "",
-    summary: "",
-    body: ""
-};
+import axiosWithAuth from '../utils/axiosWithAuth'
 
 const EditForm = (props)=> {
+    // const { push } = useHistory();
+    const initialArticle = {
+        author: "",
+        body: "",
+        createdOn:"",
+        headline: "",
+        id:"",
+        image:"",
+        summary: "",
+       
+    };
+
     const [article, setArticle]  = useState(initialArticle);
     const {handleEdit, handleEditCancel, editId} = props;
+
+    console.log('editId',editId)
+
+useEffect(()=>{
+    axiosWithAuth().get(`/articles/${editId}`)
+		  .then(res=>{
+			setArticle(res.data);
+		  });
+	  }, []);
 
     const handleChange = (e)=> {
         setArticle({
@@ -49,7 +64,7 @@ const EditForm = (props)=> {
             <label>Body</label>
             <input value={article.body} id="body" name="body" onChange={handleChange}/>
         </div>
-        <Button id="editButton">Edit Article</Button>
+        <Button id="editButton" >Edit Article</Button>
         <Button onClick={handleCancel}>Cancel</Button>
     </FormContainer>);
 }

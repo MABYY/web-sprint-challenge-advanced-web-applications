@@ -26,6 +26,7 @@ const Article = (props)=> {
     </div>);
 }
 
+
 export default Article;
 
 
