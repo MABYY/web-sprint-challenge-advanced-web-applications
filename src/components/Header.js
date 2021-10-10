@@ -2,14 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Header = () => {
+const Header = (props) => {
+    // console.log('tokenid',props.tokenid)
     return(
         <HeaderStyle>
             <p>Blogger Pro</p>
             <MenuStyle>
-                <li><Link to="/">Login</Link></li>
-                <li><Link to="view">View</Link></li>
-                <li><Link to="logout">Logout</Link></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/login">Login</Link></li>
+                {/* <li><Link to="logout">Logout</Link></li> */}
+                {/* <li><Link to="view">View</Link></li> */}
+                {(props.tokenid &&   <li><Link to="logout">Logout</Link></li>)}
+                {(props.tokenid && <li><Link to="view">View</Link></li> )}
             </MenuStyle>
         </HeaderStyle>
     );

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Redirect } from "react-router-dom";
+import React , {useState} from 'react';
+import { Route, Redirect, Switch} from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
 import styled from 'styled-components';
 
@@ -10,14 +10,22 @@ import Login from './Login';
 import Logout from './Logout';
 
 const App = () => {
+
+  const [tokenid , setTokenid] = useState(localStorage.getItem('token'))
+
   return (
     <AppContainer>
       <LambdaHeader/>
-      <Header/>
+      <Header tokenid={tokenid}/>
       <RouteContainer>
-        <Route exact path="/">
-          <Login/>
-        </Route>          
+        <Switch>
+
+          <Route exact path ='/login' render = {(props)=>(<Login {...props} settoken = {setTokenid}/>)} />
+          <PrivateRoute exact path ='/view' component={View}/>
+          <Route exact path ='/logout'  render = {(props)=>(<Logout {...props} settoken = {setTokenid}/>)} />
+          <Route exact path="/"></Route>    
+        </Switch>
+      
       </RouteContainer>
     </AppContainer>
   )

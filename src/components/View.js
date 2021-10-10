@@ -1,23 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import styled from 'styled-components';
 
 import Article from './Article';
 import EditForm from './EditForm';
+import axiosWithAuth from '../utils/axiosWithAuth'
+
 
 const View = (props) => {
+    const [article, setArticle] = useState({
+            id:"",
+            headline: "",
+            createdOn: "",
+            author:"",
+            image: "",
+            summary: "",
+            body: ""   ,
+        }
+    )
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
 
+
+    useEffect(() => {
+        axiosWithAuth().get('/articles')
+        .then(res=>{
+            console.log(res.data)
+            setArticles(res.data)
+        })
+        .catch(err =>{ console.log('err',err)})
+    },[])
+
     const handleDelete = (id) => {
+        setArticles(articles.filter(articles => articles.id !== id ))
     }
 
     const handleEdit = (article) => {
+        console.log('editId',editId)
+
+        setArticles(articles.filter(articles => articles.id !== editId))
+        setArticles([...articles, article])
+
+        axiosWithAuth().put('/view', article)
+		.then(res => {
+			// props.setArticles(res.data);
+		})
+		push('/view');
+
+        
     }
 
     const handleEditSelect = (id)=> {
         setEditing(true);
         setEditId(id);
+
     }
 
     const handleEditCancel = ()=>{
@@ -49,8 +85,10 @@ export default View;
 //Task List:
 //1. Build and import axiosWithAuth module in the utils.
 //2. When the component mounts, make an http request that adds all articles to state.
-//3. Complete handleDelete method. It should make a request that delete the article with the included id.
-//4. Complete handleEdit method. It should make a request that updates the article that matches the included article param.
+//3. Complete handleDelete method. It should make a request that delete the 
+// article with the included id.
+//4. Complete handleEdit method. It should make a request that updates the article 
+// that matches the included article param.
 
 
 const Container = styled.div`
