@@ -4,21 +4,10 @@ import styled from 'styled-components';
 import Article from './Article';
 import EditForm from './EditForm';
 import axiosWithAuth from '../utils/axiosWithAuth'
-
+import articleService from '../services/articleServices'
 
 const View = (props) => {
 
-    // const initialArticle = {
-    //     author: "",
-    //     body: "",
-    //     createdOn:"",
-    //     headline: "",
-    //     id:"",
-    //     image:"",
-    //     summary: "",
-       
-    // }; 
-    // const [article, setArticle] = useState(initialArticle)
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
@@ -29,12 +18,11 @@ const View = (props) => {
         .then(res=>{
             setArticles(res.data)
         })
-        .catch(err =>{ console.log('err',err)})
+        .catch(err =>{ setArticles([])})
     },[])
 
     const handleDelete = (id) => {
         console.log('delete id',id)
-        // setArticles(articles.filter(articles => articles.id !== id ))
 
         axiosWithAuth().delete(`/articles/${id}`)
         .then(res=>{
@@ -45,13 +33,7 @@ const View = (props) => {
 
     const handleEdit = (article) => {
         console.log('edit article',article)
-        // setArticle(article)
-        // console.log('handle edit editId',editId)
-        // console.log('handle edit article',article)
-
-        setArticles(articles.filter(articles => articles.id !== editId))
-        // setArticles([...articles, article])
-
+        // setArticles(articles.filter(articles => articles.id !== editId))
         axiosWithAuth().put(`http://localhost:5000/api/articles/${article.id}`, article)
         .then(res=>{
             console.log('response',res.data)
