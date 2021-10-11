@@ -13,7 +13,6 @@ const EditForm = (props)=> {
         id:"",
         image:"",
         summary: "",
-       
     };
 
     const [article, setArticle]  = useState(initialArticle);

@@ -6,7 +6,7 @@ import EditForm from './EditForm';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import articleService from '../services/articleServices'
 
-const View = (props) => {
+const View = () => {
 
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(false);
@@ -14,15 +14,14 @@ const View = (props) => {
 
 
     useEffect(() => {
-        articleService().then(res=>  setArticles(res))
+        articleService().then(res=>  setArticles(res)) 
+
     //     axiosWithAuth().get('/articles')
     //     .then(res=>{
     //         setArticles(res.data)
     //     })
     //     .catch(err =>{ console.log('err',err)})
-    },[]
-    
-    )
+    },[])
 
     const handleDelete = (id) => {
         console.log('delete id',id)
@@ -34,15 +33,12 @@ const View = (props) => {
         })
     }
 
+ 
     const handleEdit = (article) => {
-        console.log('edit article',article)
-s
+        axiosWithAuth().put(`/articles/${article.id}`, article)
+        .then(res=>{
         // setArticles(articles.filter(articles => articles.id !== editId))
         // setArticles([...articles, article])
-
-        axiosWithAuth().put(`http://localhost:5000/api/articles/${article.id}`, article)
-        .then(res=>{
-            console.log('response',res.data)
             setArticles(res.data)
         })
         setEditing(false)

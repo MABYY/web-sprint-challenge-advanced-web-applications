@@ -43,7 +43,7 @@ const Login = (props) => {
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
-            <form onSubmit={formSubmit} >
+            <FormGroup onSubmit={formSubmit} >
                 <Label> Username: 
                     <Input type = 'text' 
                             id='username' 
@@ -61,7 +61,7 @@ const Login = (props) => {
                 </Label>
                 
                 <Button id="submit" type='submit' >Log in</Button>
-            </form>
+            </FormGroup>
 
             <p id='error'>{(error.length>0 ? error : "")}</p>
 
